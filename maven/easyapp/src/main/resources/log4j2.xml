@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+    <properties>
+        <!-- 文件输出格式 -->
+        <property name="PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] %t|%X{TID},%c{35}: %msg%n</property>
+        <!-- 应用名 -->
+        <property name="APP_NAME">easyapp</property>
+        <!-- 日志根路径 -->
+        <property name="BASE_PATH">/applog/easyapp</property>
+    </properties>
+
+    <!-- 日志输出定义 -->
+    <appenders>
+        <!-- 滚动日志 -->
+        <RollingFile name="rollingFileLog" filename="${BASE_PATH}/${APP_NAME}.log"
+                     filePattern="${BASE_PATH}/$${date:yyyy-MM-dd}/${APP_NAME}_%d{yyyyMMdd}-%i.log">
+            <PatternLayout pattern="${PATTERN}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="20 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="9999">
+                <Delete basePath="${BASE_PATH}/" maxDepth="3">
+                    <IfFileName glob="*/${APP_NAME}_*.log"/>
+                    <IfLastModified age="30d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <!-- 控制台 -->
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${PATTERN}"/>
+        </Console>
+    </appenders>
+
+    <!-- 日志对象定义 -->
+    <loggers>
+
+<!--        &lt;!&ndash; 连接池 &ndash;&gt;-->
+<!--        <logger name="com.zaxxer.hikari" level="debug"/>-->
+<!--        &lt;!&ndash; 打印SQL &ndash;&gt;-->
+<!--        <logger name="org.springframework.jdbc.core.JdbcTemplate" level="debug"/>-->
+
+        <root level="info">
+            <AppenderRef ref="console"/>
+            <AppenderRef ref="rollingFileLog"/>
+        </root>
+    </loggers>
+
+</configuration>

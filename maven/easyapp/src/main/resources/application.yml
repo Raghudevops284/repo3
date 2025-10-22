@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: easyapp
+server:
+  servlet:
+    context-path: /fics
+  port: 8080
+app.fics: #自定义配置
